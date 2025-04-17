@@ -73,7 +73,6 @@ export default function SalaryCalculator() {
             <Label>Pension Pillar Contribution</Label>
             <Select
               value={pensionPillar ?? '0'}
-              defaultValue='0'
               onValueChange={(value) => setPensionPillar(value)}>
               <SelectTrigger>
                 <SelectValue placeholder='Select pension contribution' />
