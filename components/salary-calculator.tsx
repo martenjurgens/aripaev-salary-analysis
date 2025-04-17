@@ -50,9 +50,7 @@ export default function SalaryCalculator() {
             <TabsTrigger value={CalculationType.GROSS}>
               Gross Salary
             </TabsTrigger>
-            <TabsTrigger value={CalculationType.NET} disabled>
-              Net Salary
-            </TabsTrigger>
+            <TabsTrigger value={CalculationType.NET}>Net Salary</TabsTrigger>
             <TabsTrigger value={CalculationType.EMPLOYER_EXPENSE}>
               {"Employer's Expense"}
             </TabsTrigger>

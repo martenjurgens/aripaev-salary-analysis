@@ -11,7 +11,6 @@ interface CalculateSalaryInteface {
 
 const parseStringToNumber = (str: string) => {
   const numericStr = Number(str)
-
   return Number(isNaN(numericStr) ? 0 : numericStr)
 }
 
@@ -53,6 +52,52 @@ const calculateTaxFreeIncome = (monthlyGrossSalary: Decimal) => {
   return monthlyTaxFreeIncome
 }
 
+// AI generated
+const findGrossFromNet = (
+  targetNet: Decimal,
+  pensionPillarInput: Decimal,
+  isEmployeeInsurance: boolean
+): Decimal => {
+  let low = targetNet
+  let high = targetNet.times(2)
+  let mid = ZERO
+  let iterations = 0
+  const maxIterations = 50
+  const epsilon = Decimal(0.01)
+
+  while (low.lte(high) && iterations < maxIterations) {
+    mid = low.plus(high).div(2)
+
+    const unemploymentTaxEmployee = isEmployeeInsurance
+      ? mid.times(UNEMPLOYMENT_RATE_EMPLOYEE)
+      : ZERO
+    const pensionEmployee = mid.times(pensionPillarInput)
+    const taxFreeIncome = calculateTaxFreeIncome(mid)
+    const incomeTaxBase = mid
+      .minus(unemploymentTaxEmployee)
+      .minus(pensionEmployee)
+      .minus(taxFreeIncome)
+    const taxableIncome = Decimal.max(ZERO, incomeTaxBase)
+    const incomeTax = taxableIncome.times(INCOME_TAX_RATE)
+    const net = mid
+      .minus(unemploymentTaxEmployee)
+      .minus(pensionEmployee)
+      .minus(incomeTax)
+
+    const diff = net.minus(targetNet)
+    if (diff.abs().lte(epsilon)) {
+      return mid
+    }
+    if (diff.gt(0)) {
+      high = mid.minus(epsilon)
+    } else {
+      low = mid.plus(epsilon)
+    }
+    iterations++
+  }
+  return mid
+}
+
 export const calculateSalary = ({
   input,
   type,
@@ -60,8 +105,8 @@ export const calculateSalary = ({
   isEmployeeInsurance,
   isEmployerInsurance,
 }: CalculateSalaryInteface): SalaryResult => {
-  const salaryInput = Decimal(parseStringToNumber(input))
-  const pensionPillarInput = Decimal(parseStringToNumber(pensionPillar))
+  const salaryInput = new Decimal(parseStringToNumber(input))
+  const pensionPillarInput = new Decimal(parseStringToNumber(pensionPillar))
 
   let grossSalary = ZERO
 
@@ -69,6 +114,12 @@ export const calculateSalary = ({
     grossSalary = salaryInput
   } else if (type === CalculationType.EMPLOYER_EXPENSE) {
     grossSalary = salaryInput.div(EMPLOYER_EXPENSE_FACTOR)
+  } else if (type === CalculationType.NET) {
+    grossSalary = findGrossFromNet(
+      salaryInput,
+      pensionPillarInput,
+      isEmployeeInsurance
+    )
   } else {
     grossSalary = ZERO
   }
