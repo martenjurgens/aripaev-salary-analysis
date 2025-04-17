@@ -1,4 +1,4 @@
-import SalaryCalculationResults from '@/components/salary-calculation-results'
+import SalaryCalculationResults from '@/components/salary-calculator-results'
 import SalaryCalculator from '@/components/salary-calculator'
 import SalarySummary from '@/components/salary-summary'
 

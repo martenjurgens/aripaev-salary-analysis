@@ -46,7 +46,7 @@ export default function SalaryCalculator() {
           onValueChange={(value) =>
             setCalculationType(value as CalculationType)
           }>
-          <TabsList className='grid w-full grid-cols-3'>
+          <TabsList className='flex-wrap h-auto w-full'>
             <TabsTrigger value={CalculationType.GROSS}>
               Gross Salary
             </TabsTrigger>
@@ -73,7 +73,6 @@ export default function SalaryCalculator() {
             <Label>Pension Pillar Contribution</Label>
             <Select
               value={pensionPillar ?? '0'}
-              defaultValue='0'
               onValueChange={(value) => setPensionPillar(value)}>
               <SelectTrigger>
                 <SelectValue placeholder='Select pension contribution' />
