@@ -39,13 +39,7 @@ To get a local copy up and running follow these simple example steps.
 - npm
 
 ```sh
-
-
-
 npm  install  npm@latest  -g
-
-
-
 ```
 
 ### Installation
@@ -53,49 +47,25 @@ npm  install  npm@latest  -g
 1. Clone the repo
 
 ```sh
-
-
-
 git  clone  https://github.com/martenjurgens/aripaev-salary-analysis.git
-
-
-
 ```
 
 2. Install NPM packages
 
 ```sh
-
-
-
 npm  install
-
-
-
 ```
 
 3. Create .env in project root and add your OPENAI_API_KEY to .env
 
 ```sh
-
-
-
 OPENAI_API_KEY=your_key_here
-
-
-
 ```
 
 3. Run the project
 
 ```sh
-
-
-
 npm  run  dev
-
-
-
 ```
 
 <p  align="right">(<a  href="#readme-top">back to top</a>)</p>
